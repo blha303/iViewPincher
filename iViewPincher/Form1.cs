@@ -1,13 +1,29 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Xml;
 
 namespace iViewPincher {
     public partial class Form1 :Form {
         public Form1() {
             InitializeComponent();
+        }
+
+        public string GetToken()
+        {
+            XmlDocument doc = new XmlDocument();
+            using (WebClient wc = new WebClient())
+            {
+                doc.LoadXml(wc.DownloadString("http://iview.abc.net.au/auth"));
+                foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                {
+                    if (node.Name == "tokenhd") return node.InnerText;
+                }
+            }
+            return null;
         }
 
         public List<Episode> GetData()

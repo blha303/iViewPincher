@@ -64,7 +64,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "iViewPincher";
             this.ResumeLayout(false);
             this.PerformLayout();
 
