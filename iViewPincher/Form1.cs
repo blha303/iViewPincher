@@ -14,11 +14,11 @@ namespace iViewPincher {
         {
             List<Episode> output = new List<Episode>();
             string[] endpoints = new string[] { "ABC1", "ABC2", "ABC3", "ABC4KIDS", "NEWS", "ABCARTS", "ARTS", "IVIEW", "DOCS", "COMEDY", "LIFESTYLE", "DRAMA", "EDUCATION", "PANEL", "SPORT" };
+            label1.Text = "Loading data, this may take a minute or longer...";
             using (WebClient wc = new WebClient())
             {
                 for (var i = 0; i < endpoints.Length; i++)
                 {
-                    label1.Text = string.Format("Loading {0}...", endpoints[i]);
                     var text = wc.DownloadString("http://iview.abc.net.au/api/channel/" + endpoints[i]);
                     Channel response = JsonConvert.DeserializeObject<Channel>(text);
                     foreach (IndexObject index in response.Index)
@@ -31,12 +31,12 @@ namespace iViewPincher {
                             {
                                 episode.PrettyTitle = episode.PrettyTitle + " " + episode.Title;
                             }
-                            label1.Text = string.Format("[{0}] Processing {1}...", endpoints[i], episode.PrettyTitle);
                             output.Add(episode);
                         }
                     }
                 }
             }
+            label1.Text = "Done!";
             output.Sort((ep1, ep2) => ep1.PrettyTitle.CompareTo(ep2.PrettyTitle));
             return output;
         }
